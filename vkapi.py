@@ -42,4 +42,4 @@ class VkAudio:
 if __name__ == '__main__':
     access_token = 'c0b23ba69dbc300339842d6446d2e2d4e8f87fc5eef85fcdab68c3730d5d65e0a77bc70acbae83b246a77'
     api = VkApi(access_token)
-    print(json.dumps(api.audio.get(count=1), sort_keys=True, indent=4, separators=(',', ': ')))
+    print(json.dumps(api.audio.get(), sort_keys=True, indent=4, separators=(',', ': ')))
