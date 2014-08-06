@@ -19,6 +19,8 @@ class DBusMusicPlayer(dbus.service.Object):
     __current_pos = -1 
     __playlist = []
 
+    __eol_callback = None
+
     def __init__(self, name):
         self.__name = name
 
@@ -36,22 +38,28 @@ class DBusMusicPlayer(dbus.service.Object):
         if self.is_eol(self.__current_pos + 1):
             return
         self.__current_pos += 1
-        self.play_current_file()
+        self.set_uri(self.__playlist[self.__current_pos])
 
     def is_eol(self, position):
         eol = position < 0 or position >= len(self.__playlist)
-        # send eol message
+        if self.__eol_callback:
+            self.__eol_callback()
         return eol
 
     def run_loop(self):
         self.__g_loop = GObject.MainLoop()
         self.__g_loop.run()
 
-    def play_current_file(self):
-        self.__pipeline.set_state(Gst.State.NULL)
-        self.__playbin.set_property('uri', self.__playlist[self.__current_pos])
+    @dbus.service.method(dbus_interface=dbus_music_player_interface_name)
+    def play(self):
         self.__pipeline.set_state(Gst.State.PLAYING)
 
     def set_playlist(self, playlist):
         self.__playlist = playlist
 
+    def set_uri(self, uri):
+        self.__pipeline.set_state(Gst.State.NULL)
+        self.__playbin.set_property('uri', uri)
+
+    def set_eol_callback(self, callback):
+        self.__eol_callback = callback

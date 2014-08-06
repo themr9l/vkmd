@@ -11,7 +11,7 @@ import sys
 GObject.threads_init()
 Gst.init(None)
 
-class Player(object):
+class Player( object):
     def __init__(self):
         self.pipeline = Gst.Pipeline()
 
