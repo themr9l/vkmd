@@ -43,6 +43,8 @@ class DBusMusicPlayer(dbus.service.Object):
         self.set_uri(self.__playlist[self.__current_pos])
         self.__pipeline.set_state(Gst.State.PLAYING)
 
+        self.on_next(self.__current_pos)
+
     def is_eol(self, position):
         return position < 0 or position >= len(self.__playlist)
 
@@ -59,4 +61,7 @@ class DBusMusicPlayer(dbus.service.Object):
 
     def on_eos(self, bus, msg):
         self.next()
+
+    def on_next(pos):
+        pass
 
