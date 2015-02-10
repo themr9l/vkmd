@@ -1,15 +1,17 @@
-# import dbusmusicplayer
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import vkapi
 import random
-import subprocess
+# import subprocess
 import player
+
 
 # def on_next(pos):
 #     record = vk_playlist_responce[pos]
 #     subprocess.call(['notify-send', record['artist'], record['title']])
 
 if __name__ == '__main__':
-    access_token = 'c0b23ba69dbc300339842d6446d2e2d4e8f87fc5eef85fcdab68c3730d5d65e0a77bc70acbae83b246a77'
+    access_token = '73ab34b523418d78c8db07948f2d50514e2202c2c9abb5a93f86bd5bb4eb28b66c6647278fad527121953'
     api = vkapi.VkApi(access_token)
 
     vk_playlist = api.audio.get()
@@ -22,3 +24,5 @@ if __name__ == '__main__':
     p = player.Player('com.github.themr9l.vkmd')
     p.set_playlist(playlist)
     p.run_loop()
+
+# gst-launch-1.0 playbin uri=file:///home/joe/my-random-media-file.mpeg #test
